@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\NovaPasta1\**" />
+    <Compile Remove="Models\NovaPasta\**" />
+    <Content Remove="Models\NovaPasta1\**" />
+    <Content Remove="Models\NovaPasta\**" />
+    <EmbeddedResource Remove="Models\NovaPasta1\**" />
+    <EmbeddedResource Remove="Models\NovaPasta\**" />
+    <None Remove="Models\NovaPasta1\**" />
+    <None Remove="Models\NovaPasta\**" />
+  </ItemGroup>
+
+</Project>

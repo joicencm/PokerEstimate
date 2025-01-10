@@ -1,0 +1,20 @@
+﻿@model List<PokerEstimate.Models.Usuario>
+
+<h1>Estimativas dos Usuários</h1>
+<ul>
+    @foreach (var usuario in Model)
+    {
+        <li>
+            <b>@usuario.Nome:</b>
+            @if (!string.IsNullOrEmpty(usuario.Ponto))
+            {
+                <span>@usuario.Ponto</span>
+            }
+            else
+            {
+                <span>Aguardando estimativa</span>
+            }
+        </li>
+    }
+</ul>
+
