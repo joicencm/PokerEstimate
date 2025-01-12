@@ -1,8 +1,8 @@
 ﻿namespace PokerEstimate.Models
 {
-    public class Usuario
+    public class Usuario(string nome)
     {
-        public string? Nome { get; set; }
+        public string Nome { get; set; } = nome;
         public string? Ponto { get; set; }
     }
 }

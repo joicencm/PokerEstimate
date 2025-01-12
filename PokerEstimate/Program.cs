@@ -1,7 +1,12 @@
+using PokerEstimate.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews();  
+
+// Adiciona serviços SignalR
+builder.Services.AddSignalR(); 
 
 var app = builder.Build();
 
@@ -13,8 +18,10 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection(); 
 app.UseRouting();
+
+app.MapHub<SalaHub>("/salaHub"); 
 
 app.UseAuthorization();
 

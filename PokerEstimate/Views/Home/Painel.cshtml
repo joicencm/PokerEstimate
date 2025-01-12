@@ -3,91 +3,287 @@
 @{
     ViewData["Title"] = "Painel";
     var sala = ViewBag.Sala as PokerEstimate.Models.Sala;
+    var usuario = ViewBag.Usuario as PokerEstimate.Models.Usuario;
     var nomeUsuario = ViewBag.NomeUsuario as string;
     var ehCriador = (bool)ViewBag.EhCriador;
 }
+<div class="container mb-3">
 
-<h1 style="text-align: center;">Sala de Estimativas</h1>
-<p style="text-align: center;"><b>ID da Sala:</b> @sala.Id</p>
-<p style="text-align: center;"><b>Criador:</b> @sala.Criador</p>
+    <h1 style="text-align: center;">Sala de Estimativas</h1>
+    <p style="text-align: center;"><b>ID da Sala:</b> @sala!.Id</p>
+    <p style="text-align: center;"><b>Criador:</b> @sala.Criador</p>
 
-<h2 style="text-align: center;">Bem-vindo, @nomeUsuario!</h2>
+    <h2 style="text-align: center;">Bem-vindo, @nomeUsuario!</h2>
 
-<div style="text-align: center; margin: 5px 0;">
-    <h3>Selecione sua estimativa:</h3>
+    <div style="text-align: center; margin: 5px 0;">
+        <h3>Selecione sua estimativa:</h3>
 
-    <!-- Botão para opção com imagem de xícara -->
-    <form asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
-        <input type="hidden" name="id" value="@sala.Id" />
-        <input type="hidden" name="nome" value="@nomeUsuario" />
-        <input type="hidden" name="ponto" value="☕" />
-        <button type="submit" style="padding: 20px 30px; margin: 5px;">
-            ☕ <!-- Aqui é o símbolo da xícara -->
-        </button>
-    </form>
-
-    @for (double i = 0; i <= 3.5; i += (i < 0 ? 1 : 0.5))
-    {
-    <form asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
-        <input type="hidden" name="id" value="@sala.Id" />
-        <input type="hidden" name="nome" value="@nomeUsuario" />
-        <input type="hidden" name="ponto" value="@i" />
-        <button type="submit" style="padding: 20px 30px; margin: 5px;">@i</button>
-    </form>
-    }
-    <form asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
-        <input type="hidden" name="id" value="@sala.Id" />
-        <input type="hidden" name="nome" value="@nomeUsuario" />
-        <input type="hidden" name="ponto" value="?" />
-        <button type="submit" style="padding: 20px 30px; margin: 5px;">?</button>
-    </form>
-</div>
-
-<div style="text-align: center; margin: 5px 0;">
-    @for (int i = 4; i <= 13; i++)
-    {
-        <form asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
+        <!-- Botão para opção com imagem de xícara -->
+        <form name="registar-estimativa" asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
             <input type="hidden" name="id" value="@sala.Id" />
             <input type="hidden" name="nome" value="@nomeUsuario" />
-            <input type="hidden" name="ponto" value="@i" />
-            <button type="submit" style="padding: 20px 30px; margin: 5px;">@i</button>
+            <input type="hidden" name="ponto" value="coffee" />
+            <button type="submit" style="padding: 20px 30px; margin: 5px;">
+                <span class="material-icons">coffee</span>
+            </button>
         </form>
-    }
-</div>
 
-@if (ehCriador)
-{
-<div style="text-align: center; margin-top: 20px;">
-    <form asp-action="DeletarVotos" method="post" style="display: inline-block;">
-        <input type="hidden" name="id" value="@sala.Id" />
-        <input type="hidden" name="nomeCriador" value="@sala.Criador" />
-        <button type="submit" style="padding: 10px 20px; margin-right: 10px;">Limpar Votos</button>
-    </form>
+        @for (double i = 0; i <= 3.5; i += (i < 0 ? 1 : 0.5))
+        {
+            <form name="registar-estimativa" asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
+                <input type="hidden" name="id" value="@sala.Id" />
+                <input type="hidden" name="nome" value="@nomeUsuario" />
+                <input type="hidden" name="ponto" value="@i" />
+                <button type="submit" style="padding: 20px 30px; margin: 5px;">@i</button>
+            </form>
+        }
+        <form name="registar-estimativa" asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
+            <input type="hidden" name="id" value="@sala.Id" />
+            <input type="hidden" name="nome" value="@nomeUsuario" />
+            <input type="hidden" name="ponto" value="?" />
+            <button type="submit" style="padding: 20px 30px; margin: 5px;">?</button>
+        </form>
 
-    <form asp-action="ExibirResultados" method="post" style="display: inline-block;">
-        <input type="hidden" name="id" value="@sala.Id" />
-        <input type="hidden" name="nomeCriador" value="@sala.Criador" />
-        <button type="submit" style="padding: 10px 20px;">Exibir Resultados</button>
-    </form>
-</div>
-}
 
-<h3 style="text-align: center; margin-top: 20px;">Resultado</h3>
-<table style="margin: 0 auto; border-collapse: collapse; width: 70%; border: 1px solid black;">
-    <thead>
-        <tr style="border-bottom: 2px solid black; background-color: #f2f2f2;">
-            <th style="padding: 10px; text-align: left; width: 55%">Nome</th>
-            <th style="padding: 10px; text-align: left; width: 45%">Story Point</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var usuario in sala.Usuarios)
+        <div style="text-align: center; margin: 5px 0;">
+            @for (int i = 4; i <= 13; i++)
+            {
+                <form name="registar-estimativa" asp-action="RegistrarEstimativa" method="post"
+                    style="display: inline-block;">
+                    <input type="hidden" name="id" value="@sala.Id" />
+                    <input type="hidden" name="nome" value="@nomeUsuario" />
+                    <input type="hidden" name="ponto" value="@i" />
+                    <button type="submit" style="padding: 20px 30px; margin: 5px;">@i</button>
+                </form>
+            }
+        </div>
+    </div>
+
+    @if (ehCriador)
     {
-        <tr>
-            <td style="padding: 10px;">@usuario.Nome</td>
-            <td style="padding: 10px;">@(string.IsNullOrEmpty(usuario.Ponto) ? "Sem voto" : usuario.Ponto)</td>
-        </tr>
-    }
-    </tbody>
+        <div style="text-align: center; margin-top: 20px;">
+            <form id="formLimparVotos" asp-action="DeletarVotos" method="post" style="display: inline-block;">
+                <input type="hidden" name="id" value="@sala.Id" />
+                <input type="hidden" name="nomeCriador" value="@sala.Criador" />
+                <button type="submit" style="padding: 10px 20px; margin-right: 10px;">Limpar Votos</button>
+            </form>
 
-</table>
+            <form id="formExibirResultado" asp-action="ExibirResultados" method="post" style="display: inline-block;">
+                <input type="hidden" name="id" value="@sala.Id" />
+                <input type="hidden" name="nomeCriador" value="@sala.Criador" />
+                <button id="btnExibirResultado" type="submit" style="padding: 10px 20px;">Exibir Resultados</button>
+            </form>
+        </div>
+    }
+
+    <div class="row d-flex justify-content-center">
+        <div class="col-6">
+            <h3 style="text-align: center; margin-top: 20px;">Resultado</h3>
+            <table class="table border-success table-bordered">
+                <thead>
+                    <tr style="border-bottom: 2px solid black; background-color: #f2f2f2;">
+                        <th style="padding: 10px; text-align: left; width: 55%">Nome</th>
+                        <th style="padding: 10px; text-align: left; width: 45%">Story Point</th>
+                    </tr>
+                </thead>
+                <tbody  class="table-group-divider"  id="tabelaUsuarios">
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = () => {
+        const idSala = '@sala.Id';
+        const tbody = document.getElementById('tabelaUsuarios');
+        const btnExibirResultados = document.getElementById("btnExibirResultado");
+        const formsEstimativa = document.getElementsByName('registar-estimativa');
+        const formExibirResultado = document.getElementById('formExibirResultado');
+        const formLimparVotos = document.getElementById('formLimparVotos');
+        const usuarios =@Html.Raw(Json.Serialize(@sala.Usuarios));
+        const mostrarResultado =@Html.Raw(Json.Serialize(@sala.ExibirResultados));
+        const usuario =@Html.Raw(Json.Serialize(@usuario));
+
+        usuarios.forEach(usuario => adicionarUsuarioAoGrid(usuario, mostrarResultado))
+        alterarStatusFormularios(!mostrarResultado)
+
+        window.signalRConnection.initializeSignalRConnection()
+            .then(() => {
+                if (window.signalRConnection.connection) {
+                    window.signalRConnection.connection.on("UsuarioEntrou", function (usuario) {
+                        adicionarUsuario(usuario);
+                    });
+
+                    window.signalRConnection.connection.on("AtualizarVoto", function (usuario) {
+                        atualizarVoto(usuario)
+                    });
+
+                    window.signalRConnection.connection.on("ExibirResultados", function (usuarios) {
+                        exibirResultado(usuarios)
+                    })
+
+                    window.signalRConnection.connection.on("LimparVotos", function () {
+                        limparVotos()
+                    })
+
+                    formsEstimativa.forEach(form => form.onsubmit = async (event) => {
+                        await submitEstimativa(event)
+                    });
+
+                    if (btnExibirResultados) {
+                        formExibirResultado.onsubmit = async (event) => {
+                            await submitResultado(event)
+                        }
+                        formLimparVotos.onsubmit = async (event) => {
+                            await submitLimparVotos(event)
+                        }
+                    }
+
+                    entrarNaSala()
+                        .then(() => { console.log(`Usuário ${usuario.nome} entrou na sala`) })
+                        .catch((err) => { console.error(err.toString()) })
+                }
+            }).catch((err) => console.error(err.toString()));
+
+        async function entrarNaSala() {
+            await window.signalRConnection.connection.invoke("EntrarSala", usuario, idSala)
+        }
+
+        function adicionarUsuario(usuario) {
+            const usuarioExistente = document.querySelector(`#usuario-${usuario.nome.replace(/\s/g, '-')}`);
+            if (!usuarioExistente) {
+                adicionarUsuarioAoGrid(usuario)
+            }
+        }
+
+        function atualizarVoto(usuario) {
+            const usuarioItem = document.getElementById(`usuario-${usuario.nome.replace(/\s/g, '-')}`);
+            if (usuarioItem) {
+                usuarioItem.children[1].innerHTML = formatarPontuacao(usuario);
+            }
+        }
+
+        function exibirResultado(usuarios) {
+            alterarStatusFormularios(false)
+            tbody.innerHTML = '';
+
+            usuarios.forEach(usuario => {
+                adicionarUsuarioAoGrid(usuario, true)
+            });
+        }
+
+        function limparVotos() {
+            tbody.innerHTML = ""
+            usuarios.forEach(usuario => adicionarUsuarioAoGrid(usuario))
+            alterarStatusFormularios(true)
+        }
+
+        function alterarStatusFormularios(habilitar) {
+            formsEstimativa.forEach(form => {
+                const button = form.querySelector('button');
+                button.disabled = !habilitar
+                if (habilitar) {
+                    button.classList.remove('buttonsDisabled');
+                } else {
+                    button.classList.add('buttonsDisabled');
+                }
+            });
+        }
+
+        function adicionarUsuarioAoGrid(usuario, mostrarResultado = false) {
+            const tr = document.createElement('tr');
+            tr.id = `usuario-${usuario.nome.replace(/\s/g, '-')}`
+
+            const tdNome = document.createElement('td');
+            tdNome.style.padding = '10px';
+            tdNome.textContent = usuario.nome;
+
+            const tdPonto = document.createElement('td');
+            tdPonto.style.padding = '10px';
+            tdPonto.innerHTML = formatarPontuacao(usuario, mostrarResultado)
+
+            tr.appendChild(tdNome);
+            tr.appendChild(tdPonto);
+
+            tbody.appendChild(tr);
+        }
+
+        async function submitEstimativa(event) {
+            event.preventDefault();
+            try {
+                const resposta = await submeterFormulario(event.target);
+                if (resposta === true) {
+                    const ponto = event.target.querySelector('input[name="ponto"]').value;
+                    await window.signalRConnection.connection.invoke("AtualizarVoto", usuario.nome, ponto, idSala);
+                }
+            } catch (err) {
+                console.error("Erro ao enviar estimativa:", err);
+            }
+        }
+
+        async function submitResultado(event) {
+            event.preventDefault();
+            try {
+                const resposta = await submeterFormulario(event.target);
+                if (resposta === true) {
+                    await window.signalRConnection.connection.invoke("ExibirResultados", idSala);
+                }
+            } catch (err) {
+                console.error("Erro ao exibir resultados:", err);
+            }
+        }
+
+        async function submitLimparVotos(event) {
+            event.preventDefault();
+            try {
+                const resposta = await submeterFormulario(event.target);
+                if (resposta === true) {
+                    await window.signalRConnection.connection.invoke("LimparVotos", idSala);
+                }
+            } catch (err) {
+                console.error("Erro ao limpar votos:", err);
+            }
+        }
+
+        function submeterFormulario(form) {
+            return new Promise((resolve, reject) => {
+                fetch(form.action, {
+                    method: 'POST',
+                    body: new FormData(form)
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            resolve(true);
+                        } else {
+                            reject("Erro ao submeter formulário");
+                        }
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            });
+        }
+
+        function formatarPontuacao(usuario, mostrarResultado) {
+            if (mostrarResultado && usuario.ponto) {
+                return usuario.ponto == 'coffee'
+                    ? obterIcone('coffee')
+                    : `<span class="fw-bold">${usuario.ponto}</span>`;
+            }
+
+            const icone = usuario.ponto == 'coffee'
+                ? 'coffee'
+                : !mostrarResultado && usuario.ponto
+                    ? 'thumb_up'
+                    : 'thumb_down';
+
+            return obterIcone(icone);
+        }
+
+        function obterIcone(nomeIcone) {
+            return `<span class="material-icons">${nomeIcone}</span>`;
+        }
+    }
+
+</script>

@@ -7,7 +7,7 @@ namespace PokerEstimate.Controllers
 {
     public class HomeController : Controller
     {
-        private static List<Sala> salas = new List<Sala>();
+        private static readonly List<Sala> salas = [];
 
         public IActionResult Index()
         {
@@ -19,8 +19,10 @@ namespace PokerEstimate.Controllers
         {
             if (!string.IsNullOrEmpty(nomeCriador))
             {
-                var sala = new Sala { Criador = nomeCriador };
+                var sala = new Sala(nomeCriador);
+                sala.Usuarios.Add(new Usuario(nomeCriador));
                 salas.Add(sala);
+
                 return RedirectToAction("Painel", new { id = sala.Id, nome = nomeCriador });
             }
             return RedirectToAction("Index");
@@ -34,7 +36,7 @@ namespace PokerEstimate.Controllers
             {
                 if (!sala.Usuarios.Any(u => u.Nome == nome))
                 {
-                    sala.Usuarios.Add(new Usuario { Nome = nome });
+                    sala.Usuarios.Add(new Usuario(nome));
                 }
                 return RedirectToAction("Painel", new { id = sala.Id, nome });
             }
@@ -46,11 +48,18 @@ namespace PokerEstimate.Controllers
             var sala = salas.FirstOrDefault(s => s.Id == id);
             if (sala == null)
             {
-                return NotFound("Sala não encontrada.");
+                return NotFound("Sala nï¿½o encontrada.");
+            }
+
+            var usuario = sala.Usuarios.FirstOrDefault(x => x.Nome == nome);
+            if (usuario == null)
+            {
+                return NotFound("UsuÃ¡rio nÃ£o encontrado.");
             }
 
             ViewBag.Sala = sala;
             ViewBag.NomeUsuario = nome;
+            ViewBag.Usuario = usuario;
             ViewBag.EhCriador = sala.Criador == nome;
             ViewBag.ExibirResultados = sala.ExibirResultados;
             return View();
@@ -78,7 +87,7 @@ namespace PokerEstimate.Controllers
                 {
                     usuario.Ponto = null;
                 }
-                sala.ExibirResultados = false;  // Oculta os resultados após a limpeza
+                sala.ExibirResultados = false;  // Oculta os resultados apï¿½s a limpeza
             }
             return RedirectToAction("Painel", new { id, nome = nomeCriador });
         }

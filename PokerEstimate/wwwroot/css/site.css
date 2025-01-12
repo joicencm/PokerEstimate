@@ -5,7 +5,8 @@ body {
     background-color: #f4f4f4;
 }
 
-h1, h2 {
+h1,
+h2 {
     color: #333;
 }
 
@@ -13,7 +14,13 @@ form {
     margin-top: 20px;
 }
 
+input {
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+
 button {
+    border-radius: 5px;
     background-color: #4CAF50;
     color: white;
     border: none;
@@ -22,6 +29,17 @@ button {
     cursor: pointer;
 }
 
-    button:hover {
-        background-color: #45a049;
-    }
+.buttonsDisabled {
+    background-color: #565a56;
+    cursor: not-allowed;
+}
+
+.buttonsDisabled:hover {
+    background-color: #565a56;
+    scale: 1
+}
+
+button:hover {
+    background-color: #45a049;
+    scale: 1.1;
+}

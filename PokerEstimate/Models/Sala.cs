@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace PokerEstimate.Models
 {
-    public class Sala
+    public class Sala(string criador)
     {
         public string Id { get; set; } = Guid.NewGuid().ToString();
-        public string Criador { get; set; }
-        public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
-        public bool ExibirResultados { get; set; } = false;
+        public string Criador { get; set; } = criador;
+        public List<Usuario> Usuarios { get; set; } = [];
+        public bool ExibirResultados { get; set; }
     }
 }
