@@ -86,7 +86,7 @@
                         <th style="padding: 10px; text-align: left; width: 45%">Story Point</th>
                     </tr>
                 </thead>
-                <tbody  class="table-group-divider"  id="tabelaUsuarios">
+                <tbody class="table-group-divider" id="tabelaUsuarios">
                 </tbody>
             </table>
         </div>
@@ -123,8 +123,8 @@
                         exibirResultado(usuarios)
                     })
 
-                    window.signalRConnection.connection.on("LimparVotos", function () {
-                        limparVotos()
+                    window.signalRConnection.connection.on("LimparVotos", function (usuarios) {
+                        limparVotos(usuarios)
                     })
 
                     formsEstimativa.forEach(form => form.onsubmit = async (event) => {
@@ -173,10 +173,12 @@
             });
         }
 
-        function limparVotos() {
-            tbody.innerHTML = ""
-            usuarios.forEach(usuario => adicionarUsuarioAoGrid(usuario))
+        function limparVotos(usuarios) {
             alterarStatusFormularios(true)
+            tbody.innerHTML = ""
+            usuarios.forEach(usuario => {
+                adicionarUsuarioAoGrid(usuario)
+            });
         }
 
         function alterarStatusFormularios(habilitar) {

@@ -78,7 +78,7 @@ namespace PokerEstimate.Models
                 usuarios.ForEach(usuario => usuario.Ponto = null);
 
                 // Envia os resultados para todos os usuários da sala
-                await Clients.Group(idSala).SendAsync("LimparVotos");
+                await Clients.Group(idSala).SendAsync("LimparVotos", usuarios);
             }
         }
     }
