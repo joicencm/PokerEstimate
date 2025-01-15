@@ -43,3 +43,15 @@ button:hover {
     background-color: #45a049;
     scale: 1.1;
 }
+
+.destaque {
+    background-color: rgb(2, 83, 43);
+    color: white;
+    border: 2px solid rgb(2, 83, 43);
+    font-weight: bold;
+}
+
+button.destaque:hover {
+    background-color: rgb(2, 83, 43);
+    scale: 1.1;
+}

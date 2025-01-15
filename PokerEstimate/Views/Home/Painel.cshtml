@@ -23,7 +23,7 @@
             <input type="hidden" name="id" value="@sala.Id" />
             <input type="hidden" name="nome" value="@nomeUsuario" />
             <input type="hidden" name="ponto" value="coffee" />
-            <button type="submit" style="padding: 20px 30px; margin: 5px;">
+            <button type="submit" onclick="destacarBotao(this)" style="padding: 20px 30px; margin: 5px;">
                 <span class="material-icons">coffee</span>
             </button>
         </form>
@@ -34,16 +34,16 @@
                 <input type="hidden" name="id" value="@sala.Id" />
                 <input type="hidden" name="nome" value="@nomeUsuario" />
                 <input type="hidden" name="ponto" value="@i" />
-                <button type="submit" style="padding: 20px 30px; margin: 5px;">@i</button>
+                <button type="submit" onclick="destacarBotao(this)" style="padding: 20px 30px; margin: 5px;">@i</button>
             </form>
         }
+
         <form name="registar-estimativa" asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
             <input type="hidden" name="id" value="@sala.Id" />
             <input type="hidden" name="nome" value="@nomeUsuario" />
             <input type="hidden" name="ponto" value="?" />
-            <button type="submit" style="padding: 20px 30px; margin: 5px;">?</button>
+            <button type="submit" onclick="destacarBotao(this)" style="padding: 20px 30px; margin: 5px;">?</button>
         </form>
-
 
         <div style="text-align: center; margin: 5px 0;">
             @for (int i = 4; i <= 13; i++)
@@ -53,7 +53,7 @@
                     <input type="hidden" name="id" value="@sala.Id" />
                     <input type="hidden" name="nome" value="@nomeUsuario" />
                     <input type="hidden" name="ponto" value="@i" />
-                    <button type="submit" style="padding: 20px 30px; margin: 5px;">@i</button>
+                    <button type="submit" onclick="destacarBotao(this)" style="padding: 20px 30px; margin: 5px;">@i</button>
                 </form>
             }
         </div>
@@ -179,6 +179,9 @@
             usuarios.forEach(usuario => {
                 adicionarUsuarioAoGrid(usuario)
             });
+            // Remover destaque de todos os botões
+            const botoes = document.querySelectorAll('button');
+            botoes.forEach(botao => botao.classList.remove('destaque'));
         }
 
         function alterarStatusFormularios(habilitar) {
@@ -286,6 +289,15 @@
         function obterIcone(nomeIcone) {
             return `<span class="material-icons">${nomeIcone}</span>`;
         }
+    }
+
+    function destacarBotao(botao) {
+        // Remove o destaque de todos os botões antes de destacar o clicado
+        const botoes = document.querySelectorAll('button');
+        botoes.forEach(b => b.classList.remove('destaque'));
+
+        // Adiciona a classe de destaque ao botão clicado
+        botao.classList.add('destaque');
     }
 
 </script>
