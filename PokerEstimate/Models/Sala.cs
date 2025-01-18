@@ -9,5 +9,6 @@ namespace PokerEstimate.Models
         public string Criador { get; set; } = criador;
         public List<Usuario> Usuarios { get; set; } = [];
         public bool ExibirResultados { get; set; }
+        
     }
 }
