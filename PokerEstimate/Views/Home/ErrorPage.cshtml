@@ -1,0 +1,7 @@
+<div class="container text-center mt-5">
+    <h1>Ocorreu um erro</h1>
+    <p class="fw-bold">@ViewBag.MensagemErro</p>
+    <form method="get" action="@Url.Action("Index", "Home")">
+        <button type="submit" class="m-3">Voltar</button>
+    </form>
+</div>

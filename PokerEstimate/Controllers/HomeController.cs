@@ -1,13 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using PokerEstimate.Models;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace PokerEstimate.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(SalaService salaService) : Controller
     {
-        private static readonly List<Sala> salas = [];
+        private readonly SalaService _salaService = salaService;
 
         public IActionResult Index()
         {
@@ -20,74 +18,72 @@ namespace PokerEstimate.Controllers
             if (!string.IsNullOrEmpty(nomeCriador))
             {
                 var sala = new Sala(nomeCriador);
-                sala.Usuarios.Add(new Usuario(nomeCriador));
-                salas.Add(sala);
 
-                return RedirectToAction("Painel", new { id = sala.Id, nome = nomeCriador });
+                var usuario = new Usuario(nomeCriador, TipoUsuario.CRIADOR);
+
+                sala.AdicionarUsuario(usuario);
+
+                _salaService.SalvarSala(sala);
+
+                return RedirectToAction("Painel", new { id = sala.Id, nome = usuario.Nome });
             }
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult EntrarSala(string id, string nome)
+        public IActionResult EntrarSala(string id, string nome, string tipoUsuario)
         {
-            var sala = salas.FirstOrDefault(s => s.Id == id);
+            if (!int.TryParse(tipoUsuario, out var tipo))
+            {
+                return BadRequest("Tipo de usuário inválido");
+            }
+
+            if (!Enum.IsDefined(typeof(TipoUsuario), tipo))
+            {
+                return BadRequest("Tipo de usuário inválido");
+            }
+
+            var sala = _salaService.ObterSala(id.Trim());
+
             if (sala != null && !string.IsNullOrEmpty(nome))
             {
-                if (!sala.Usuarios.Any(u => u.Nome == nome))
+                var usuario = new Usuario(nome, (TipoUsuario)tipo);
+
+                var foiIncluido = sala.AdicionarUsuario(usuario);
+
+                if (!foiIncluido)
                 {
-                    sala.Usuarios.Add(new Usuario(nome));
+                    return RedirectToAction("ErrorPage", new { mensagem = $"A sala já possui um membro com o nome {nome}" });
                 }
-                return RedirectToAction("Painel", new { id = sala.Id, nome });
+
+                return RedirectToAction("Painel", new { id = sala.Id, nome = usuario.Nome });
             }
-            return RedirectToAction("Index");
+
+            return RedirectToAction("ErrorPage", new { mensagem = $"Sala não encontrada" });
+
         }
 
-        public IActionResult Painel(string id, string nome)
-        {
-            var sala = salas.FirstOrDefault(s => s.Id == id);
-            if (sala == null)
-            {
-                return NotFound("Sala n�o encontrada.");
-            }
-
-            var usuario = sala.Usuarios.FirstOrDefault(x => x.Nome == nome);
-            if (usuario == null)
-            {
-                return NotFound("Usuário não encontrado.");
-            }
-
-            ViewBag.Sala = sala;
-            ViewBag.NomeUsuario = nome;
-            ViewBag.Usuario = usuario;
-            ViewBag.EhCriador = sala.Criador == nome;
-            ViewBag.ExibirResultados = sala.ExibirResultados;
-            return View();
-        }
 
         [HttpPost]
         public IActionResult RegistrarEstimativa(string id, string nome, string ponto)
         {
-            var sala = salas.FirstOrDefault(s => s.Id == id);
-            var usuario = sala?.Usuarios.FirstOrDefault(u => u.Nome == nome);
-            if (usuario != null)
-            {
-                usuario.Ponto = ponto;
-            }
+            var sala = _salaService.ObterSala(id);
+
+            var usuario = sala.ObterUsuario(nome);
+
+            usuario?.AdicionarPonto(ponto);
+
             return RedirectToAction("Painel", new { id, nome });
         }
 
         [HttpPost]
         public IActionResult DeletarVotos(string id, string nomeCriador)
         {
-            var sala = salas.FirstOrDefault(s => s.Id == id);
+            var sala = _salaService.ObterSala(id);
+
             if (sala != null && sala.Criador == nomeCriador)
             {
-                foreach (var usuario in sala.Usuarios)
-                {
-                    usuario.Ponto = null;
-                }
-                sala.ExibirResultados = false;  // Oculta os resultados ap�s a limpeza
+                sala.DeletarVotos();
             }
             return RedirectToAction("Painel", new { id, nome = nomeCriador });
         }
@@ -95,12 +91,46 @@ namespace PokerEstimate.Controllers
         [HttpPost]
         public IActionResult ExibirResultados(string id, string nomeCriador)
         {
-            var sala = salas.FirstOrDefault(s => s.Id == id);
+            var sala = _salaService.ObterSala(id);
+
             if (sala != null && sala.Criador == nomeCriador)
             {
-                sala.ExibirResultados = true;
+                sala.CalcularEstimativa();
             }
             return RedirectToAction("Painel", new { id, nome = nomeCriador });
+        }
+
+
+        public IActionResult ErrorPage(string mensagem)
+        {
+            ViewBag.MensagemErro = mensagem;
+            return View();
+        }
+
+
+        public IActionResult Painel(string id, string nome)
+        {
+            var sala = _salaService.ObterSala(id);
+
+            if (sala == null)
+            {
+                return NotFound("Sala não encontrada.");
+            }
+
+            var usuario = sala.ObterUsuario(nome);
+
+            if (usuario == null)
+            {
+                return NotFound("Usuário não encontrado na sala.");
+            }
+
+            ViewBag.Sala = sala;
+            ViewBag.NomeUsuario = usuario.Nome;
+            ViewBag.Usuario = usuario;
+            ViewBag.EhCriador = sala.Criador == usuario.Nome;
+            ViewBag.ExibirResultados = sala.ExibirResultados;
+
+            return View();
         }
     }
 }
