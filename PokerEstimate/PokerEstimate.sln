@@ -5,6 +5,8 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PokerEstimate", "PokerEstimate.csproj", "{792A4B96-FA32-4305-862F-EDE322F8039D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "estimativa-tests", "..\unit-tests\estimativa-tests.csproj", "{B5EE6B45-186A-4CA9-B4D0-2795E8900BBA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,14 @@ Global
 		{792A4B96-FA32-4305-862F-EDE322F8039D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{792A4B96-FA32-4305-862F-EDE322F8039D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{792A4B96-FA32-4305-862F-EDE322F8039D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{581AC7BF-C20F-444E-8F9E-81AA948F7355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{581AC7BF-C20F-444E-8F9E-81AA948F7355}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{581AC7BF-C20F-444E-8F9E-81AA948F7355}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{581AC7BF-C20F-444E-8F9E-81AA948F7355}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5EE6B45-186A-4CA9-B4D0-2795E8900BBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5EE6B45-186A-4CA9-B4D0-2795E8900BBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5EE6B45-186A-4CA9-B4D0-2795E8900BBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5EE6B45-186A-4CA9-B4D0-2795E8900BBA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

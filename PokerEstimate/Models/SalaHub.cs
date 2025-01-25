@@ -1,57 +1,35 @@
 using Microsoft.AspNetCore.SignalR;
-using System.Collections.Concurrent;
+using PokerEstimate.Controllers;
 
 namespace PokerEstimate.Models
 {
-    public class SalaHub : Hub
+    public class SalaHub(SalaService salaService) : Hub
     {
-        // Dicionário de salas, onde cada sala contém uma lista de usuários
-        private static readonly ConcurrentDictionary<string, List<Usuario>> _salas = new();
+        private readonly SalaService SalaService = salaService;
+
 
         public async Task EntrarSala(Usuario usuario, string idSala)
         {
-            if (usuario == null || string.IsNullOrWhiteSpace(idSala))
-                return;
+            await Clients.Group(idSala).SendAsync("UsuarioEntrou", usuario);
 
-            // Adiciona a sala se não existir
-            _salas.AddOrUpdate(idSala,
-                [usuario],
-                (key, usuarios) =>
-                {
-                    // Adiciona o usuário à sala, se ainda não estiver nela
-                    var usuarioExistente = usuarios.FirstOrDefault(u => u.Nome == usuario.Nome);
-                    if (usuarioExistente == null)
-                    {
-                        usuarios.Add(usuario);
-                    }
-
-                    Clients.Group(idSala).SendAsync("UsuarioEntrou", usuario);
-
-                    return usuarios;
-                });
-
-            // Adiciona a conexão ao grupo SignalR
             await Groups.AddToGroupAsync(Context.ConnectionId, idSala);
         }
 
-        public async Task AtualizarVoto(string nomeUsuario, string? ponto, string idSala)
+
+        public async Task AtualizarVoto(string nomeUsuario, string idSala)
         {
             if (string.IsNullOrWhiteSpace(nomeUsuario) || string.IsNullOrWhiteSpace(idSala))
                 return;
 
-            // Verifica se a sala existe
-            if (_salas.TryGetValue(idSala, out var usuarios))
-            {
-                // Encontra o usuário e atualiza os pontos
-                var usuario = usuarios.FirstOrDefault(u => u.Nome == nomeUsuario);
-                if (usuario != null)
-                {
-                    usuario.Ponto = ponto;
+            var sala = SalaService.ObterSala(idSala);
 
-                    // Envia a atualização para todos os usuários da sala
-                    await Clients.Group(idSala).SendAsync("AtualizarVoto", usuario);
-                }
+            if (sala != null)
+            {
+                var usuario = sala.ObterUsuario(nomeUsuario);
+                
+                await Clients.Group(idSala).SendAsync("AtualizarVoto", usuario);
             }
+
         }
 
         public async Task ExibirResultados(string idSala)
@@ -59,11 +37,11 @@ namespace PokerEstimate.Models
             if (string.IsNullOrWhiteSpace(idSala))
                 return;
 
-            // Verifica se a sala existe
-            if (_salas.TryGetValue(idSala, out var usuarios))
+            var sala = SalaService.ObterSala(idSala);
+
+            if (sala != null)
             {
-                // Envia os resultados para todos os usuários da sala
-                await Clients.Group(idSala).SendAsync("ExibirResultados", usuarios);
+                await Clients.Group(idSala).SendAsync("ExibirResultados", sala);
             }
         }
 
@@ -72,13 +50,11 @@ namespace PokerEstimate.Models
             if (string.IsNullOrWhiteSpace(idSala))
                 return;
 
-            // Verifica se a sala existe
-            if (_salas.TryGetValue(idSala, out var usuarios))
-            {
-                usuarios.ForEach(usuario => usuario.Ponto = null);
+            var sala = SalaService.ObterSala(idSala);
 
-                // Envia os resultados para todos os usuários da sala
-                await Clients.Group(idSala).SendAsync("LimparVotos", usuarios);
+            if (sala != null)
+            {
+                await Clients.Group(idSala).SendAsync("LimparVotos", sala.Usuarios);
             }
         }
     }

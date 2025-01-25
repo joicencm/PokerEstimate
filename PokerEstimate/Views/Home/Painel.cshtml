@@ -1,61 +1,61 @@
 ﻿@model PokerEstimate.Models.Sala
+@using PokerEstimate.Models
 @using System.Globalization
 @{
     ViewData["Title"] = "Painel";
-    var sala = ViewBag.Sala as PokerEstimate.Models.Sala;
-    var usuario = ViewBag.Usuario as PokerEstimate.Models.Usuario;
+    var sala = ViewBag.Sala as Sala;
+    var usuario = ViewBag.Usuario as Usuario;
     var nomeUsuario = ViewBag.NomeUsuario as string;
     var ehCriador = (bool)ViewBag.EhCriador;
 }
 <div class="container mb-3">
 
-    <h1 style="text-align: center;">Sala de Estimativas</h1>
-    <p style="text-align: center;"><b>ID da Sala:</b> @sala!.Id</p>
-    <p style="text-align: center;"><b>Criador:</b> @sala.Criador</p>
+    <h1 class="text-center fs-2">Sala de Estimativas</h1>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <p><b>ID da Sala:</b> @sala!.Id</p>
+        </div>
+        <div class="col-auto">
+            <p><b>Criador:</b> @sala.Criador</p>
+        </div>
+    </div>
 
-    <h2 style="text-align: center;">Bem-vindo, @nomeUsuario!</h2>
-
-    <div style="text-align: center; margin: 5px 0;">
-        <h3>Selecione sua estimativa:</h3>
-
-        <!-- Botão para opção com imagem de xícara -->
-        <form name="registar-estimativa" asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
-            <input type="hidden" name="id" value="@sala.Id" />
-            <input type="hidden" name="nome" value="@nomeUsuario" />
-            <input type="hidden" name="ponto" value="coffee" />
-            <button type="submit" onclick="destacarBotao(this)" style="padding: 20px 30px; margin: 5px;">
-                <span class="material-icons">coffee</span>
-            </button>
-        </form>
-
-        @for (double i = 0; i <= 3.5; i += (i < 0 ? 1 : 0.5))
-        {
-            <form name="registar-estimativa" asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
-                <input type="hidden" name="id" value="@sala.Id" />
-                <input type="hidden" name="nome" value="@nomeUsuario" />
-                <input type="hidden" name="ponto" value="@i" />
-                <button type="submit" onclick="destacarBotao(this)" style="padding: 20px 30px; margin: 5px;">@i</button>
-            </form>
-        }
-
-        <form name="registar-estimativa" asp-action="RegistrarEstimativa" method="post" style="display: inline-block;">
-            <input type="hidden" name="id" value="@sala.Id" />
-            <input type="hidden" name="nome" value="@nomeUsuario" />
-            <input type="hidden" name="ponto" value="?" />
-            <button type="submit" onclick="destacarBotao(this)" style="padding: 20px 30px; margin: 5px;">?</button>
-        </form>
+    <div id="painel">
+        <h2 class="text-center fs-3">Bem-vindo, @nomeUsuario!</h2>
 
         <div style="text-align: center; margin: 5px 0;">
-            @for (int i = 4; i <= 13; i++)
-            {
-                <form name="registar-estimativa" asp-action="RegistrarEstimativa" method="post"
-                    style="display: inline-block;">
-                    <input type="hidden" name="id" value="@sala.Id" />
-                    <input type="hidden" name="nome" value="@nomeUsuario" />
-                    <input type="hidden" name="ponto" value="@i" />
-                    <button type="submit" onclick="destacarBotao(this)" style="padding: 20px 30px; margin: 5px;">@i</button>
-                </form>
-            }
+            <h3 class="fs-4">Selecione sua estimativa:</h3>
+
+            <form id="registrar-estimativa" asp-action="RegistrarEstimativa" method="post" style="text-align: center;">
+                <input type="hidden" name="id" value="@sala.Id" />
+                <input type="hidden" name="nome" value="@nomeUsuario" />
+                <input type="hidden" name="ponto" value="" />
+
+                <!-- Botão para opção com imagem de xícara -->
+                <button value="coffee" type="submit" onclick="destacarBotao(this)"
+                    style="padding: 20px 30px; margin: 5px;">
+                    <span class="material-icons">coffee</span>
+                </button>
+
+                <!-- Botão para interrogação -->
+                <button value="?" type="submit" onclick="destacarBotao(this)"
+                    style="padding: 20px 30px; margin: 5px;">?</button>
+
+                <!-- Botões para valores de 0 a 3.5 -->
+                @for (double i = 0; i <= 3.5; i += (i < 0 ? 1 : 0.5))
+                {
+                    <button value='@i' type="submit" onclick="destacarBotao(this)"
+                        style="padding: 20px 30px; margin: 5px;">@i</button>
+                }
+
+                <!-- Botões para valores de 4 a 13 -->
+                @for (int i = 4; i <= 13; i++)
+                {
+                    <button value='@i' type="submit" onclick="destacarBotao(this)"
+                        style="padding: 20px 30px; margin: 5px;">@i</button>
+                }
+            </form>
+
         </div>
     </div>
 
@@ -71,7 +71,8 @@
             <form id="formExibirResultado" asp-action="ExibirResultados" method="post" style="display: inline-block;">
                 <input type="hidden" name="id" value="@sala.Id" />
                 <input type="hidden" name="nomeCriador" value="@sala.Criador" />
-                <button id="btnExibirResultado" type="submit" style="padding: 10px 20px;">Exibir Resultados</button>
+                <button id="btnExibirResultado" type="submit" style="padding: 10px 20px;">Exibir
+                    Resultados</button>
             </form>
         </div>
     }
@@ -86,7 +87,23 @@
                         <th style="padding: 10px; text-align: left; width: 45%">Story Point</th>
                     </tr>
                 </thead>
-                <tbody class="table-group-divider" id="tabelaUsuarios">
+                <tbody id="tabelaUsuarios">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="divEstimativa" class="col-6" hidden>
+            <h3 style="text-align: center; margin-top: 20px;">Estimativa</h3>
+            <table class="table border-success table-bordered">
+                <thead>
+                    <tr style="border-bottom: 2px solid black; background-color: #f2f2f2;">
+                        <th>Pontuação Final</th>
+                        <th>Pontuação Dev</th>
+                        <th>Pontuação QA</th>
+                        <th>Voto Criador</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaEstimativa">
                 </tbody>
             </table>
         </div>
@@ -94,19 +111,27 @@
 </div>
 
 <script>
-    window.onload = () => {
-        const idSala = '@sala.Id';
-        const tbody = document.getElementById('tabelaUsuarios');
-        const btnExibirResultados = document.getElementById("btnExibirResultado");
-        const formsEstimativa = document.getElementsByName('registar-estimativa');
-        const formExibirResultado = document.getElementById('formExibirResultado');
-        const formLimparVotos = document.getElementById('formLimparVotos');
-        const usuarios =@Html.Raw(Json.Serialize(@sala.Usuarios));
-        const mostrarResultado =@Html.Raw(Json.Serialize(@sala.ExibirResultados));
-        const usuario =@Html.Raw(Json.Serialize(@usuario));
 
+    const idSala = '@sala.Id';
+    const tbody = document.getElementById('tabelaUsuarios');
+    const btnExibirResultados = document.getElementById("btnExibirResultado");
+    const formEstimativa = document.getElementById('registrar-estimativa');
+    const formExibirResultado = document.getElementById('formExibirResultado');
+    const formLimparVotos = document.getElementById('formLimparVotos');
+    const divEstimativa = document.getElementById('divEstimativa');
+    const usuarios =@Html.Raw(Json.Serialize(@sala.Usuarios));
+    const sala =@Html.Raw(Json.Serialize(@sala));
+    const mostrarResultado =@Html.Raw(Json.Serialize(@sala.ExibirResultados));
+    const usuario =@Html.Raw(Json.Serialize(@usuario));
+
+    window.onload = () => {
+        divEstimativa.hidden = !mostrarResultado
         usuarios.forEach(usuario => adicionarUsuarioAoGrid(usuario, mostrarResultado))
         alterarStatusFormularios(!mostrarResultado)
+
+        if (mostrarResultado) {
+            renderizarEstimativa(sala.estimativa)
+        }
 
         window.signalRConnection.initializeSignalRConnection()
             .then(() => {
@@ -119,17 +144,17 @@
                         atualizarVoto(usuario)
                     });
 
-                    window.signalRConnection.connection.on("ExibirResultados", function (usuarios) {
-                        exibirResultado(usuarios)
+                    window.signalRConnection.connection.on("ExibirResultados", function (sala) {
+                        exibirResultado(sala)
                     })
 
                     window.signalRConnection.connection.on("LimparVotos", function (usuarios) {
                         limparVotos(usuarios)
                     })
 
-                    formsEstimativa.forEach(form => form.onsubmit = async (event) => {
+                    formEstimativa.onsubmit = async (event) => {
                         await submitEstimativa(event)
-                    });
+                    }
 
                     if (btnExibirResultados) {
                         formExibirResultado.onsubmit = async (event) => {
@@ -145,151 +170,163 @@
                         .catch((err) => { console.error(err.toString()) })
                 }
             }).catch((err) => console.error(err.toString()));
+    }
 
-        async function entrarNaSala() {
-            await window.signalRConnection.connection.invoke("EntrarSala", usuario, idSala)
-        }
+    async function entrarNaSala() {
+        await window.signalRConnection.connection.invoke("EntrarSala", usuario, idSala)
+    }
 
-        function adicionarUsuario(usuario) {
-            const usuarioExistente = document.querySelector(`#usuario-${usuario.nome.replace(/\s/g, '-')}`);
-            if (!usuarioExistente) {
-                adicionarUsuarioAoGrid(usuario)
-            }
-        }
-
-        function atualizarVoto(usuario) {
-            const usuarioItem = document.getElementById(`usuario-${usuario.nome.replace(/\s/g, '-')}`);
-            if (usuarioItem) {
-                usuarioItem.children[1].innerHTML = formatarPontuacao(usuario);
-            }
-        }
-
-        function exibirResultado(usuarios) {
-            alterarStatusFormularios(false)
-            tbody.innerHTML = '';
-
-            usuarios.forEach(usuario => {
-                adicionarUsuarioAoGrid(usuario, true)
-            });
-        }
-
-        function limparVotos(usuarios) {
-            alterarStatusFormularios(true)
-            tbody.innerHTML = ""
-            usuarios.forEach(usuario => {
-                adicionarUsuarioAoGrid(usuario)
-            });
-            // Remover destaque de todos os botões
-            const botoes = document.querySelectorAll('button');
-            botoes.forEach(botao => botao.classList.remove('destaque'));
-        }
-
-        function alterarStatusFormularios(habilitar) {
-            formsEstimativa.forEach(form => {
-                const button = form.querySelector('button');
-                button.disabled = !habilitar
-                if (habilitar) {
-                    button.classList.remove('buttonsDisabled');
-                } else {
-                    button.classList.add('buttonsDisabled');
-                }
-            });
-        }
-
-        function adicionarUsuarioAoGrid(usuario, mostrarResultado = false) {
-            const tr = document.createElement('tr');
-            tr.id = `usuario-${usuario.nome.replace(/\s/g, '-')}`
-
-            const tdNome = document.createElement('td');
-            tdNome.style.padding = '10px';
-            tdNome.textContent = usuario.nome;
-
-            const tdPonto = document.createElement('td');
-            tdPonto.style.padding = '10px';
-            tdPonto.innerHTML = formatarPontuacao(usuario, mostrarResultado)
-
-            tr.appendChild(tdNome);
-            tr.appendChild(tdPonto);
-
-            tbody.appendChild(tr);
-        }
-
-        async function submitEstimativa(event) {
-            event.preventDefault();
-            try {
-                const resposta = await submeterFormulario(event.target);
-                if (resposta === true) {
-                    const ponto = event.target.querySelector('input[name="ponto"]').value;
-                    await window.signalRConnection.connection.invoke("AtualizarVoto", usuario.nome, ponto, idSala);
-                }
-            } catch (err) {
-                console.error("Erro ao enviar estimativa:", err);
-            }
-        }
-
-        async function submitResultado(event) {
-            event.preventDefault();
-            try {
-                const resposta = await submeterFormulario(event.target);
-                if (resposta === true) {
-                    await window.signalRConnection.connection.invoke("ExibirResultados", idSala);
-                }
-            } catch (err) {
-                console.error("Erro ao exibir resultados:", err);
-            }
-        }
-
-        async function submitLimparVotos(event) {
-            event.preventDefault();
-            try {
-                const resposta = await submeterFormulario(event.target);
-                if (resposta === true) {
-                    await window.signalRConnection.connection.invoke("LimparVotos", idSala);
-                }
-            } catch (err) {
-                console.error("Erro ao limpar votos:", err);
-            }
-        }
-
-        function submeterFormulario(form) {
-            return new Promise((resolve, reject) => {
-                fetch(form.action, {
-                    method: 'POST',
-                    body: new FormData(form)
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            resolve(true);
-                        } else {
-                            reject("Erro ao submeter formulário");
-                        }
-                    })
-                    .catch(err => {
-                        reject(err);
-                    });
-            });
-        }
-
-        function formatarPontuacao(usuario, mostrarResultado) {
-            if (mostrarResultado && usuario.ponto) {
-                return usuario.ponto == 'coffee'
-                    ? obterIcone('coffee')
-                    : `<span class="fw-bold">${usuario.ponto}</span>`;
-            }
-
-            const icone = usuario.ponto == 'coffee'
-                ? 'coffee'
-                : !mostrarResultado && usuario.ponto
-                    ? 'thumb_up'
-                    : 'thumb_down';
-
-            return obterIcone(icone);
-        }
-
-        function obterIcone(nomeIcone) {
-            return `<span class="material-icons">${nomeIcone}</span>`;
+    function adicionarUsuario(usuario) {
+        const usuarioExistente = document.querySelector(`#usuario-${usuario.nome.replace(/\s/g, '-')}`);
+        if (!usuarioExistente) {
+            adicionarUsuarioAoGrid(usuario)
         }
     }
+
+    function atualizarVoto(usuario) {
+        const usuarioItem = document.getElementById(`usuario-${usuario.nome.replace(/\s/g, '-')}`);
+        if (usuarioItem) {
+            usuarioItem.children[1].innerHTML = formatarPontuacao(usuario);
+        }
+    }
+
+    function exibirResultado(sala) {
+        alterarStatusFormularios(false)
+        renderizarEstimativa(sala.estimativa, Array.from(sala.usuarios).find(u => u.tipoUsuario == 0))
+
+        tbody.innerHTML = '';
+        sala.usuarios.forEach(usuario => {
+            adicionarUsuarioAoGrid(usuario, true)
+        });
+    }
+
+    function limparVotos(usuarios) {
+        alterarStatusFormularios(true)
+        divEstimativa.hidden = true;
+        tbody.innerHTML = ""
+
+        usuarios.forEach(usuario => {
+            adicionarUsuarioAoGrid(usuario)
+        });
+        // Remover destaque de todos os botões
+        const botoes = document.querySelectorAll('button');
+        botoes.forEach(botao => botao.classList.remove('destaque'));
+    }
+
+    function alterarStatusFormularios(habilitar) {
+        const botoes = formEstimativa.querySelectorAll("button")
+        botoes.forEach(button => {
+            button.disabled = !habilitar
+            if (habilitar) {
+                button.classList.remove('buttonsDisabled');
+            } else {
+                button.classList.add('buttonsDisabled');
+            }
+        })
+    }
+
+    function adicionarUsuarioAoGrid(usuario, mostrarResultado = false) {
+        const tr = document.createElement('tr');
+        tr.id = `usuario-${usuario.nome.replace(/\s/g, '-')}`
+
+        const tdNome = document.createElement('td');
+        tdNome.style.padding = '10px';
+        tdNome.textContent = `${usuario.nome} -- ${usuario.tipoUsuario == 0
+            ? 'Criador' : usuario.tipoUsuario == 1 ? 'DEV' : 'QA'}`;
+
+        const tdPonto = document.createElement('td');
+        tdPonto.style.padding = '10px';
+        tdPonto.innerHTML = formatarPontuacao(usuario, mostrarResultado)
+
+        tr.appendChild(tdNome);
+        tr.appendChild(tdPonto);
+
+        tbody.appendChild(tr);
+    }
+
+    async function submitEstimativa(event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const botaoClicado = event.submitter;
+        const valorBotao = botaoClicado.value;
+
+        form.querySelector('[name="ponto"]').value = valorBotao;
+
+        try {
+            const resposta = await submeterFormulario(form);
+            if (resposta === true) {
+                await window.signalRConnection.connection.invoke("AtualizarVoto", usuario.nome, idSala);
+            }
+        } catch (err) {
+            console.error("Erro ao enviar estimativa:", err);
+        }
+    }
+
+    async function submitResultado(event) {
+        event.preventDefault();
+
+        try {
+            const resposta = await submeterFormulario(event.target);
+            if (resposta === true) {
+                await window.signalRConnection.connection.invoke("ExibirResultados", idSala);
+            }
+        } catch (err) {
+            console.error("Erro ao exibir resultados:", err);
+        }
+    }
+
+    async function submitLimparVotos(event) {
+        event.preventDefault();
+        try {
+            const resposta = await submeterFormulario(event.target);
+            if (resposta === true) {
+                await window.signalRConnection.connection.invoke("LimparVotos", idSala);
+            }
+        } catch (err) {
+            console.error("Erro ao limpar votos:", err);
+        }
+    }
+
+    function submeterFormulario(form) {
+        return new Promise((resolve, reject) => {
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form)
+            })
+                .then(response => {
+                    if (response.ok) {
+                        resolve(true);
+                    } else {
+                        reject("Erro ao submeter formulário");
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        });
+    }
+
+    function formatarPontuacao(usuario, mostrarResultado) {
+        if (mostrarResultado && usuario.ponto) {
+            return usuario.ponto == 'coffee'
+                ? obterIcone('coffee')
+                : `<span class="fw-bold">${usuario.ponto}</span>`;
+        }
+
+        const icone = usuario.ponto == 'coffee'
+            ? 'coffee'
+            : !mostrarResultado && usuario.ponto
+                ? 'thumb_up'
+                : 'thumb_down';
+
+        return obterIcone(icone);
+    }
+
+    function obterIcone(nomeIcone) {
+        return `<span class="material-icons">${nomeIcone}</span>`;
+    }
+
 
     function destacarBotao(botao) {
         // Remove o destaque de todos os botões antes de destacar o clicado
@@ -300,4 +337,30 @@
         botao.classList.add('destaque');
     }
 
+    function renderizarEstimativa(estimativa, criador) {
+        divEstimativa.hidden = false;
+        const tbody = document.getElementById('tabelaEstimativa');
+        const tr = document.createElement('tr');
+        tbody.innerHTML = ''
+
+        const propriedades = [
+            { nome: 'PontuacaoFinal', formatar: (u) => u.valorFinal },
+            { nome: 'PontuacaoDev', formatar: (u) => u.valorFinalDevs },
+            { nome: 'PontuacaoQA', formatar: (u) => u.valorFinalQas },
+        ];
+
+        propriedades.forEach((propriedade) => {
+            const td = document.createElement('td');
+            td.style.padding = '10px';
+            td.textContent = propriedade.formatar(estimativa);
+            tr.appendChild(td);
+        });
+
+        const tdVotoCriador = document.createElement('td');
+        tdVotoCriador.style.padding = '10px';
+        tdVotoCriador.innerHTML = formatarPontuacao(criador, true);
+        tr.appendChild(tdVotoCriador);
+
+        tbody.appendChild(tr);
+    }
 </script>
