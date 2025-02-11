@@ -55,3 +55,93 @@ button.destaque:hover {
     background-color: rgb(2, 83, 43);
     scale: 1.1;
 }
+
+/* site.css */
+.botao-estimativa {
+    display: inline-flex;
+    /* Usamos inline-flex para os botões ficarem na horizontal */
+    justify-content: center;
+    /* Centraliza o conteúdo do botão (ícone ou texto) horizontalmente */
+    align-items: center;
+    /* Centraliza o conteúdo verticalmente */
+    width: 70px;
+    /* Largura fixa */
+    height: 90px;
+    /* Altura fixa */
+    margin: 5px;
+    font-size: 24px;
+    /* Ajuste o tamanho da fonte para manter tudo proporcional */
+    border-radius: 7px;
+    /* Botões circulares (opcional) */
+    text-align: center;
+    /* Alinha o texto no centro */
+}
+
+.botao-estimativa:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    /* Efeito de sombra, simulando que o botão foi levado para frente */
+    transform: translateY(-4px);
+    /* Levanta o botão um pouco para dar o efeito de elevação */
+}
+
+.material-icons {
+    font-size: 36px;
+    /* Ajuste o tamanho do ícone */
+}
+
+/* Alinhamento horizontal dos botões */
+#registrar-estimativa {
+    display: flex;
+    /* Usamos flexbox para organizar os botões na horizontal */
+    justify-content: center;
+    /* Centraliza todos os botões */
+    flex-wrap: wrap;
+    /* Permite que os botões que não cabem na linha sejam movidos para a linha seguinte */
+}
+
+.pontuacao {
+    font-family: "Poppins", sans-serif;
+    font-size: 0.9em;
+    /* Fonte menor para elegância */
+    font-weight: bold;
+    /* Negrito para dar destaque */
+    color: #5a6b7b;
+    /* Azul acinzentado sutil */
+    padding-bottom: 2px;
+}
+
+#tabelaEstimativa td {
+    font-family: "Poppins", sans-serif;
+    font-size: 0.9em;
+    /* Fonte menor para elegância */
+    font-weight: bold;
+    /* Negrito para dar destaque */
+    color: #5a6b7b;
+    /* Azul acinzentado sutil */
+    padding-bottom: 2px;
+    text-align: center;
+}
+
+.table th {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #ddd;
+}
+
+.table td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.table.border-success {
+    border: none !important;
+}
+
+.poker-font {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+}
+
+.estimate {
+    color: #45a049;
+}

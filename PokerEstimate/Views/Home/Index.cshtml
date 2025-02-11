@@ -10,7 +10,8 @@
         <h2>Criar uma nova sala</h2>
         <form asp-action="CriarSala" method="post" class="d-inline-block">
             <div class="mb-3">
-                <input type="text" name="nomeCriador" class="form-control" placeholder="Digite seu nome" required />
+                <input type="text" name="nomeCriador" id="nomeCriador" class="form-control"
+                    placeholder="Digite seu nome" required maxlength="50" />
             </div>
             <button type="submit" class="btn btn-primary">Criar Sala</button>
         </form>
@@ -21,10 +22,12 @@
         <h2>Entrar em uma sala existente</h2>
         <form asp-action="EntrarSala" method="post" class="d-inline-block">
             <div class="mb-3">
-                <input type="text" name="id" class="form-control" placeholder="ID da sala" required />
+                <input type="text" name="id" id="idSala" class="form-control" placeholder="ID da sala" required
+                    maxlength="50" />
             </div>
             <div class="mb-3">
-                <input type="text" name="nome" class="form-control" placeholder="Seu nome" required />
+                <input type="text" name="nome" id="nome" class="form-control" placeholder="Seu nome" required
+                    maxlength="50" />
             </div>
             <div class="mb-3">
                 <select name="tipoUsuario" class="form-select" required>
@@ -37,3 +40,21 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("input[maxlength]").forEach(function (input) {
+            input.addEventListener("input", function () {
+                if (this.value.length >= this.maxLength) {
+                    // Exibe o alerta uma única vez
+                    if (!this.dataset.alertShown) {
+                        alert("O limite de caracteres para este campo é " + this.maxLength);
+                        this.dataset.alertShown = true; // Marca que o alerta já foi mostrado
+                    }
+                } else {
+                    this.dataset.alertShown = false; // Reseta o alerta se o usuário apagar caracteres
+                }
+            });
+        });
+    });
+</script>
