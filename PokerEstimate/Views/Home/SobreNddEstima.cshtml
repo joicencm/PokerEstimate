@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre NDD Estimate</title>
+    <link rel="stylesheet" href="../css/sobre.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+
+        <section class="intro">
+            <h2>O que é a NDD Estimate?</h2>
+            <p>A NDD Estimate é uma ferramenta colaborativa projetada para ajudar equipes a estimar o tempo necessário
+                para completar uma tarefa. Ela permite que cada membro da equipe participe da estimativa, gerando um
+                consenso mais preciso.</p>
+        </section>
+
+        <section class="intuito">
+            <h2>Intuito</h2>
+            <p>O objetivo é promover um ambiente onde todos os membros da equipe, como desenvolvedores e QA, podem dar
+                sua contribuição para determinar o tempo estimado para a execução de uma tarefa. Isso ajuda no
+                planejamento do projeto e melhora a comunicação interna.</p>
+        </section>
+
+        <section class="como-funciona">
+            <h2>Como Funciona?</h2>
+            <ol>
+                <li><strong>Entrada na Sala:</strong> Os usuários entram em uma sala de estimativa e podem interagir com
+                    os outros membros.</li>
+                <li><strong>Submissão de Votos:</strong> Cada membro faz uma estimativa como "Numeros" (representando os
+                    dias) ou usando ícones "coffee" (sem ponto) e "?" (em caso de dúvida).</li>
+                <li><strong>Exibição dos Resultados:</strong> As estimativas são exibidas em tempo real para todos os
+                    membros da equipe.</li>
+                <li><strong>Ajustes Finais:</strong> Caso necessário, as estimativas podem ser revisadas para um
+                    consenso.</li>
+                <li><strong>Limpeza de Votos:</strong> Votos podem ser limpos e o processo reiniciado, se necessário.
+                </li>
+            </ol>
+        </section>
+
+        <section class="como-demonstrado">
+            <h2>Como é Demonstrada a Estimativa?</h2>
+            <p>Após todos os votos serem submetidos, a estimativa final (soma entre DEVs e QAs) é calculada e exibida de
+                maneira clara. A estimativa final pode ser vista no topo da página, junto com o nome e a votação
+                individual de cada membro.</p>
+            <ul>
+                <h4>Função de Cálculo entre os DEVs e os QAs</h4>
+                <li><strong>Se ponto mais votado:</strong> O valor final será o ponto mais votado.</li>
+                <li><strong>Se todos os votos são diferentes:</strong> O valor final será o menor ponto votado.</li>
+                <li><strong>Se o ponto mais votado não é único:</strong> Em caso de empate, o valor final será o menor
+                    ponto entre os empates.</li>
+            </ul>
+        </section>
+    </div>
+</body>
+
+</html>

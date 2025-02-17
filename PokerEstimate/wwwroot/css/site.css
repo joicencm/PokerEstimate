@@ -1,8 +1,17 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
 }
 
 h1,
@@ -137,11 +146,19 @@ button.destaque:hover {
     border: none !important;
 }
 
-.poker-font {
-    font-family: 'Montserrat', sans-serif;
-    font-weight: 700;
-}
-
 .estimate {
     color: #45a049;
+}
+
+.container {
+    flex-grow: 1;
+}
+
+footer {
+    margin-top: auto;
+    /* Faz o rodapé "grudar" na parte inferior */
+    padding: 20px 0;
+    /* A mesma cor do rodapé */
+    color: white;
+    text-align: center;
 }

@@ -3,13 +3,25 @@ using PokerEstimate.Models;
 
 namespace PokerEstimate.Controllers
 {
-    public class HomeController(SalaService salaService) : Controller
+    public class HomeController : Controller
     {
-        private readonly SalaService _salaService = salaService;
+        private readonly SalaService _salaService;
+
+        // Construtor
+        public HomeController(SalaService salaService)
+        {
+            _salaService = salaService;
+        }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        // Método que irá renderizar a página SobreNddEstima
+        public IActionResult SobreNddEstima()
+        {
+            return View();  // Renderiza a view "SobreNddEstima.cshtml"
         }
 
         [HttpPost]
@@ -18,11 +30,9 @@ namespace PokerEstimate.Controllers
             if (!string.IsNullOrEmpty(nomeCriador))
             {
                 var sala = new Sala(nomeCriador);
-
                 var usuario = new Usuario(nomeCriador, TipoUsuario.CRIADOR);
 
                 sala.AdicionarUsuario(usuario);
-
                 _salaService.SalvarSala(sala);
 
                 return RedirectToAction("Painel", new { id = sala.Id, nome = usuario.Nome });
@@ -48,7 +58,6 @@ namespace PokerEstimate.Controllers
             if (sala != null && !string.IsNullOrEmpty(nome))
             {
                 var usuario = new Usuario(nome, (TipoUsuario)tipo);
-
                 var foiIncluido = sala.AdicionarUsuario(usuario);
 
                 if (!foiIncluido)
@@ -60,17 +69,13 @@ namespace PokerEstimate.Controllers
             }
 
             return RedirectToAction("ErrorPage", new { mensagem = $"Sala não encontrada" });
-
         }
-
 
         [HttpPost]
         public IActionResult RegistrarEstimativa(string id, string nome, string ponto)
         {
             var sala = _salaService.ObterSala(id);
-
             var usuario = sala.ObterUsuario(nome);
-
             usuario?.AdicionarPonto(ponto);
 
             return RedirectToAction("Painel", new { id, nome });
@@ -100,13 +105,11 @@ namespace PokerEstimate.Controllers
             return RedirectToAction("Painel", new { id, nome = nomeCriador });
         }
 
-
         public IActionResult ErrorPage(string mensagem)
         {
             ViewBag.MensagemErro = mensagem;
             return View();
         }
-
 
         public IActionResult Painel(string id, string nome)
         {
