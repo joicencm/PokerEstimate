@@ -2,42 +2,70 @@
     ViewData["Title"] = "Página Inicial";
 }
 
+<!-- Definindo a imagem de fundo da página -->
+<style>
+    body {
+        background-image: url('/imagens/Post Its Vidro.png');
+        background-size: cover; /* A imagem vai cobrir toda a tela */
+        background-position: center; /* Centraliza a imagem */
+        background-repeat: no-repeat; /* Impede a repetição da imagem */
+        min-height: 100vh; /* Garante que a imagem ocupe toda a altura da tela */
+        margin: 0;
+        padding: 0;
+    }
+</style>
+
 <div class="container">
-    <h1 class="text-center my-4">Crie ou Entre em uma Sala de Estimativas</h1>
+    <div class="row justify-content-center"> <!-- Centraliza o card -->
+        <div class="col-md-8">
+            <!-- Primeiro Card (Camada 1) -->
+            <div class="card shadow-lg mb-4 border-light" style="border-radius: 15px; background: #ffffff;">
+                <div class="text-center text-dark py-4">
+                    <div class="card-body">
+                        <h1 class="text-center my-4">Crie ou Entre em uma Sala de Estimativas</h1>
 
-    <!-- Criar uma nova sala -->
-    <div class="text-center my-3">
-        <h2>Criar uma nova sala</h2>
-        <form asp-action="CriarSala" method="post" class="d-inline-block">
-            <div class="mb-3">
-                <input type="text" name="nomeCriador" id="nomeCriador" class="form-control"
-                    placeholder="Digite seu nome" required maxlength="50" />
-            </div>
-            <button type="submit" class="btn btn-primary">Criar Sala</button>
-        </form>
-    </div>
+                        <!-- Segundo Card (Camada 2) -->
+                        <div class="card shadow-lg mb-4 border-light" style="border-radius: 10px; background: #f8f9fa;">
+                            <div class="card-body">
+                                <h2>Criar uma nova sala</h2>
+                                <form asp-action="CriarSala" method="post" class="d-inline-block">
+                                    <div class="mb-3">
+                                        <input type="text" name="nomeCriador" id="nomeCriador" class="form-control"
+                                            placeholder="Digite seu nome" required maxlength="50" />
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Criar Sala</button>
+                                </form>
+                            </div>
+                        </div>
 
-    <!-- Entrar em uma sala existente -->
-    <div class="text-center my-5">
-        <h2>Entrar em uma sala existente</h2>
-        <form asp-action="EntrarSala" method="post" class="d-inline-block">
-            <div class="mb-3">
-                <input type="text" name="id" id="idSala" class="form-control" placeholder="ID da sala" required
-                    maxlength="50" />
+                        <!-- Terceiro Card (Camada 3) -->
+                        <div class="card shadow-lg mb-4 border-light" style="border-radius: 10px; background: #f1f3f5;">
+                            <div class="card-body">
+                                <h2>Entrar em uma sala existente</h2>
+                                <form asp-action="EntrarSala" method="post" class="d-inline-block">
+                                    <div class="mb-3">
+                                        <input type="text" name="id" id="idSala" class="form-control" placeholder="ID da sala" required
+                                            maxlength="50" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <input type="text" name="nome" id="nome" class="form-control" placeholder="Seu nome" required
+                                            maxlength="50" />
+                                    </div>
+                                    <div class="mb-3">
+                                        <select name="tipoUsuario" class="form-select" required>
+                                            <option value="" disabled selected>Selecione</option>
+                                            <option value="1">DEV</option>
+                                            <option value="2">QA</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn btn-success">Entrar</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="mb-3">
-                <input type="text" name="nome" id="nome" class="form-control" placeholder="Seu nome" required
-                    maxlength="50" />
-            </div>
-            <div class="mb-3">
-                <select name="tipoUsuario" class="form-select" required>
-                    <option value="" disabled selected>Selecione</option>
-                    <option value="1">DEV</option>
-                    <option value="2">QA</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-success">Entrar</button>
-        </form>
+        </div>
     </div>
 </div>
 

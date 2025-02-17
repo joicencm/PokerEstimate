@@ -161,4 +161,6 @@ footer {
     /* A mesma cor do rodapé */
     color: white;
     text-align: center;
+    background-color: white;
+    /* Cor do fundo do rodapé */
 }
