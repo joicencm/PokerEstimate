@@ -5,7 +5,7 @@ body {
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
@@ -89,7 +89,7 @@ button.destaque:hover {
 .botao-estimativa:hover {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
     /* Efeito de sombra, simulando que o botão foi levado para frente */
-    transform: translateY(-4px);
+    transform: translateY(-1px);
     /* Levanta o botão um pouco para dar o efeito de elevação */
 }
 

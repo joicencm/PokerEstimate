@@ -13,12 +13,12 @@
         Estimativas</h1>
     <div class="row justify-content-center">
         <div class="col-auto">
-            <p style="font-family: 'Arial', sans-serif; color: #555;">
+            <p style="font-family: 'Arial', sans-serif; color: #666;">
                 <b>ID da Sala:</b>
                 <input id="inputSalaId" type="text" value="@sala!.Id" readonly
-                    style="font-family: 'Arial', sans-serif; color: #555; width: 300px;">
+                    style="font-family: 'Arial', sans-serif; color: #666; width: 300px;">
                 <button onclick="copiarId()"
-                    style="font-family: 'Arial', sans-serif; font-size: 12px; padding: 2px 10px; background-color: #555; color: white; margin-left: 10px;">Copiar</button>
+                    style="font-family: 'Arial', sans-serif; font-size: 12px; padding: 2px 10px; background-color: #7f8c8d; color: white; margin-left: 10px;">Copiar</button>
             </p>
         </div>
     </div>
@@ -68,19 +68,25 @@
 
 @if (ehCriador)
 {
-    <div style="text-align: center; margin-top: 20px;">
-        <form id="formLimparVotos" asp-action="DeletarVotos" method="post" style="display: inline-block;">
+    <div style="text-align: center; margin-top: 20px; display: flex; justify-content: center; gap: 10px;">
+        <form id="formLimparVotos" asp-action="DeletarVotos" method="post">
             <input type="hidden" name="id" value="@sala.Id" />
             <input type="hidden" name="nomeCriador" value="@sala.Criador" />
             <button type="submit"
-                style="padding: 10px 20px; margin-right: 10px; font-family: 'Arial', sans-serif; font-weight: normal; color: white;">Limpar</button>
+                style="padding: 10px 20px; font-family: 'Arial', sans-serif; font-weight: normal; color: white; background-color: #7f8c8d; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;"
+                onmouseover="this.style.backgroundColor='#e74c3c';" onmouseout="this.style.backgroundColor='#7f8c8d';">
+                Limpar
+            </button>
         </form>
 
-        <form id="formExibirResultado" asp-action="ExibirResultados" method="post" style="display: inline-block;">
+        <form id="formExibirResultado" asp-action="ExibirResultados" method="post">
             <input type="hidden" name="id" value="@sala.Id" />
             <input type="hidden" name="nomeCriador" value="@sala.Criador" />
             <button id="btnExibirResultado" type="submit"
-                style="padding: 10px 20px; font-family: 'Arial', sans-serif; font-weight: normal; color: white;">Mostrar</button>
+                style="padding: 10px 20px; font-family: 'Arial', sans-serif; font-weight: normal; color: white; background-color: #7f8c8d; border: none; border-radius: 5px; cursor: pointer; transition: background-color 0.3s;"
+                onmouseover="this.style.backgroundColor='#3498db';" onmouseout="this.style.backgroundColor='#7f8c8d';">
+                Mostrar
+            </button>
         </form>
     </div>
 }
