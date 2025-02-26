@@ -78,7 +78,7 @@ button.destaque:hover {
     height: 90px;
     /* Altura fixa */
     margin: 5px;
-    font-size: 24px;
+    font-size: 16px;
     /* Ajuste o tamanho da fonte para manter tudo proporcional */
     border-radius: 7px;
     /* Botões circulares (opcional) */
@@ -163,4 +163,8 @@ footer {
     text-align: center;
     background-color: white;
     /* Cor do fundo do rodapé */
+}
+
+.painel .fs-5 {
+    font-size: 1.25rem; /* Tamanho de fonte ajustado */
 }

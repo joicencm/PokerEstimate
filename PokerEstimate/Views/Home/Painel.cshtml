@@ -24,46 +24,45 @@
     </div>
 
     <div id="painel">
+        <!-- Título de boas-vindas -->
         <h2 class="text-center fs-3" style="font-family: 'Arial', sans-serif; font-weight: normal; color: #333;">
-            Bem-vindo(a), @nomeUsuario!</h2>
+            Bem-vindo(a), @nomeUsuario!
+        </h2>
 
-        <div style="text-align: center; margin: 5px 0;">
+        <!-- Seção de seleção de estimativa -->
+        <div class="text-center my-3">
             <h3 class="fs-4" style="font-family: 'Arial', sans-serif; color: #666;">Selecione sua estimativa:</h3>
 
-            <form id="registrar-estimativa" asp-action="RegistrarEstimativa" method="post" style="text-align: center;">
+            <form id="registrar-estimativa" asp-action="RegistrarEstimativa" method="post">
                 <input type="hidden" name="id" value="@sala.Id" />
                 <input type="hidden" name="nome" value="@nomeUsuario" />
                 <input type="hidden" name="ponto" value="" />
 
                 <!-- Botão para opção com imagem de xícara -->
-                <button value="coffee" type="submit" onclick="destacarBotao(this)" class="botao-estimativa"
-                    style="font-size: 18px;">
+                <button value="coffee" type="submit" onclick="destacarBotao(this)" class="botao-estimativa fs-6">
                     <span class="material-icons">coffee</span>
                 </button>
 
                 <!-- Botão para interrogação -->
-                <button value="?" type="submit" onclick="destacarBotao(this)" class="botao-estimativa"
-                    style="font-size: 18px;">?</button>
+                <button value="?" type="submit" onclick="destacarBotao(this)" class="botao-estimativa fs-6">?</button>
 
                 <!-- Botões para valores de 0 a 3.5 -->
-                @for (double i = 0; i <= 3.5; i += (i < 0 ? 1 : 0.5))
+                @for (double i = 0; i <= 3.5; i += (i < 1 ? 1 : 0.5))
                 {
-                    <button value='@i' type="submit" onclick="destacarBotao(this)" class="botao-estimativa"
-                        style="font-size: 18px;">@i</button>
+                    <button value='@i' type="submit" onclick="destacarBotao(this)" class="botao-estimativa fs-6">@i</button>
                 }
-
-                <!-- Botões para valores de 4 a 13 -->
-                <div>
+                <fieldset class="mb-3">
+                    <!-- Botões para valores de 4 a 13 -->
                     @for (int i = 4; i <= 13; i++)
                     {
-                        <button value='@i' type="submit" onclick="destacarBotao(this)" class="botao-estimativa"
-                            style="font-size: 18px;">@i</button>
+                        <button value='@i' type="submit" onclick="destacarBotao(this)"
+                            class="botao-estimativa fs-6">@i</button>
                     }
-                </div>
+                </fieldset>
             </form>
         </div>
-
     </div>
+
 </div>
 
 @if (ehCriador)
@@ -92,10 +91,11 @@
 }
 
 <div class="row d-flex justify-content-center">
-    <div class="col-6">
+    <div class="col-12 col-md-6">
         <h4 id="resultadoFinal"
             style="text-align: center; margin-top: 20px; font-family: 'Arial', sans-serif; color: #333;">Aguardando
             a estimativa da tarefa</h4>
+
         <div id="divEstimativa" class="col-12" hidden>
             <h3 style="text-align: center; margin-top: 20px; font-family: 'Arial', sans-serif; color: #333;"></h3>
             <table class="table border-success"
@@ -110,21 +110,22 @@
                 </tbody>
             </table>
         </div>
-        <table class="table border-success"
-            style="box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3); font-family: 'Arial', sans-serif; font-size: 14px;">
-            <thead>
-                <tr style="border-bottom: 2px solid black; background-color: #f2f2f2;">
-                    <th style="padding: 10px; text-align: left; width: 65%;">Nome</th>
-                    <th style="padding: 10px; text-align: left; width: 35%;">Estimativa</th>
-                </tr>
-            </thead>
-            <tbody id="tabelaUsuarios">
-            </tbody>
-        </table>
+
+        <div id="divUsuarios">
+            <table class="table border-success"
+                style="box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3); font-family: 'Arial', sans-serif; font-size: 14px;">
+                <thead>
+                    <tr style="border-bottom: 2px solid black; background-color: #f2f2f2;">
+                        <th style="padding: 10px; text-align: left; width: 65%;">Nome</th>
+                        <th style="padding: 10px; text-align: left; width: 35%;">Estimativa</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaUsuarios">
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-</div>
-
 
 <script>
 
