@@ -1,0 +1,24 @@
+body {
+    background-image: url('/imagens/Post Its Vidro.png');
+    background-size: cover; /* A imagem vai cobrir toda a tela */
+    background-position: center; /* Centraliza a imagem */
+    background-repeat: no-repeat; /* Impede a repetição da imagem */
+    background-attachment: fixed; /* Fixando a imagem no fundo para não mover com o scroll */
+    min-height: 100vh; /* Garante que a imagem ocupe toda a altura da tela */
+    margin: 0;
+    padding: 0;
+}
+
+/* Ajustes para a imagem de fundo com base no tamanho da tela */
+@media (max-width: 768px) {
+    body {
+        background-size: contain; /* Ajusta a imagem para caber na tela em dispositivos menores */
+    }
+}
+
+/* Ajuste para telas menores de 480px */
+@media (max-width: 480px) {
+    body {
+        background-size: auto 100%; /* Ajusta a imagem de fundo de forma responsiva para telas pequenas */
+    }
+}

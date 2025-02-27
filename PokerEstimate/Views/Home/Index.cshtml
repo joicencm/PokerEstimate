@@ -2,18 +2,9 @@
     ViewData["Title"] = "Página Inicial";
 }
 
-<!-- Definindo a imagem de fundo da página -->
-<style>
-    body {
-        background-image: url('/imagens/Post Its Vidro.png');
-        background-size: cover; /* A imagem vai cobrir toda a tela */
-        background-position: center; /* Centraliza a imagem */
-        background-repeat: no-repeat; /* Impede a repetição da imagem */
-        min-height: 100vh; /* Garante que a imagem ocupe toda a altura da tela */
-        margin: 0;
-        padding: 0;
-    }
-</style>
+<head>
+    <link rel="stylesheet" href="~/css/index.css" />
+</head>
 
 <div class="container">
     <div class="row justify-content-center"> <!-- Centraliza o card -->
@@ -44,12 +35,12 @@
                                 <h2>Entrar em uma sala existente</h2>
                                 <form asp-action="EntrarSala" method="post" class="d-inline-block">
                                     <div class="mb-3">
-                                        <input type="text" name="id" id="idSala" class="form-control" placeholder="ID da sala" required
-                                            maxlength="50" />
+                                        <input type="text" name="id" id="idSala" class="form-control"
+                                            placeholder="ID da sala" required maxlength="50" />
                                     </div>
                                     <div class="mb-3">
-                                        <input type="text" name="nome" id="nome" class="form-control" placeholder="Seu nome" required
-                                            maxlength="50" />
+                                        <input type="text" name="nome" id="nome" class="form-control"
+                                            placeholder="Seu nome" required maxlength="50" />
                                     </div>
                                     <div class="mb-3">
                                         <select name="tipoUsuario" class="form-select" required>
